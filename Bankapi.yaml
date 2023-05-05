@@ -1,0 +1,259 @@
+openapi: 3.0.0
+info:
+  title: Bank API by Atharva
+  description: API with express, nodejs, TypeScript
+  version: 1.0.0
+  contact:
+    email: katharva2002@gmail.com
+    name: Atharva
+paths:
+  /getaccsummary:
+    get:
+      summary: Fetch account summary data
+      description: Returns all data stored locally
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: The account number associated with the summary data
+                  name:
+                    type: string
+                    description: The account balance associated with the summary data
+                  accType: 
+                    type : string
+                  email: 
+                    type: string
+                  date_acc_created : 
+                    type : string
+                  balance : 
+                    type : integer
+                  Nooftransaction : 
+                    type : integer
+  /gettraans:
+    get:
+      summary: Fetch data of transaction
+      description : shows all data with there transactions
+      responses:
+        "200":
+          description : OK
+          content: 
+            application/json: 
+              schema:
+                type: object
+                properties:
+                  id: 
+                    type: integer
+                    description: Id of transaction
+                  transactiontime: 
+                    type: string
+                    description : transaction time of each index 
+                  amount:
+                    type: integer
+  /account/id :
+    get:
+      summary : Fetch data with specific ID
+      description : Output data with respected ID
+      responses: 
+        "200":
+          description : OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: 
+                    type: integer
+                    description: ID of specifc account
+                  name:
+                    type: string
+                    description: The account balance associated with the summary data
+                  accType: 
+                    type : string
+                  email: 
+                    type: string
+                  date_acc_created : 
+                    type : string
+                  balance : 
+                    type : integer
+                  Nooftransaction : 
+                    type : integer
+  /createnewaccount:
+    post:
+      summary: Creates a new account
+      description: crates a new account by taking inputs(parameters) from req.body
+      requestBody: 
+        description: account details
+        required : true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties :
+                name: 
+                  type: string
+                accType: 
+                  type: string
+                email:
+                  type: string
+      responses : 
+        "200" :
+          description: OK
+          content :
+            application/json:
+              schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                accType: 
+                  type: string
+                email :
+                  type: string
+                data_acc_create: 
+                  type : string 
+                balance :
+                  type : integer 
+                nooftransaction :
+                  type : integer
+                  
+  /account/getfiltertransaction/:start/end:
+    get : 
+      summary : Gets filtered transactions 
+      description : Filtered transactions 
+      responses: 
+        "200":
+          description : OK
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  id: 
+                    type: integer
+                  transactiontime:
+                    type: string
+                  amount: 
+                    type: integer
+  /account/delete/id : 
+    delete:
+      summary : deletes the specific account 
+      description : deletes the specific account with parameter "id"
+      responses :
+        "200" : 
+          description :  OK
+          content :
+            application/json :
+              schema:
+                type:  object 
+                properties :
+                  id: 
+                    type: integer
+                  name: 
+                    type: string
+                  accType: 
+                    type: string
+                  email:
+                    type: string
+                  data_acc_created:
+                    type: string
+                  balance :
+                    type : integer
+                  Nooftransaction:
+                    type: integer
+  /account/:id/withdraw:
+    post:
+      summary: Withdraws a certain amount from the account
+      description: Withdraws a specified amount from the account with the provided ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The ID of the account to withdraw from
+        - in: body
+          name: Withdrawal Details
+          description: The details of the withdrawal transaction
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              amount:
+                type: integer
+          required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  accType:
+                    type: string
+                  email:
+                    type: string
+                  data_acc_created:
+                    type: string
+                  balance:
+                    type: integer
+                  Nooftransaction:
+                    type: integer
+  /account/:id/deposite:
+    post:
+      summary: Deposits a certain amount into the account
+      description: Deposits a specified amount into the account with the provided ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The ID of the account to deposit into
+        - in: body
+          name: Deposit Details
+          description: The details of the deposit transaction
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              amount:
+                type: integer
+          required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  accType:
+                    type: string
+                  email:
+                    type: string
+                  data_acc_created:
+                    type: string
+                  balance:
+                    type: integer
+                  Nooftransaction:
+                    type: integer
+
