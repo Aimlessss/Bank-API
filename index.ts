@@ -31,7 +31,7 @@ app.get("/accounts", (req: express.Request, res: express.Response)=>{
 });
 
 //   get/account/index -> gives account summary specific index
-app.get("/accounts/:id",(req: express.Request, res: express.Response)=>{
+app.get("/accounts/:id",(req, res)=>{
     const accountid = Number(req.params.id)
     const getAccount = data.find((element)=>element.id === accountid)
 
