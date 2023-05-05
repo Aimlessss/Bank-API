@@ -23,13 +23,13 @@ var transactionT = [{ id: 1, transactiontime: new Date("2015-01-16"), amount: 30
 app.use(express_1["default"].json());
 var dataLength = data.length;
 //   get/getaccsummary -> givs account summary
-app.get("/getaccsummary", function (req, res) {
-    console.log('/GET getaccsummary');
+app.get("/accounts", function (req, res) {
+    console.log('/GET accounts');
     res.json(data);
 });
 //   get/account/index -> gives account summary specific index
-app.get("/account/:id", function (req, res) {
-    var accountid = Number(req.params.id); // converted string to integer 
+app.get("/accounts/:id", function (req, res) {
+    var accountid = Number(req.params.id);
     var getAccount = data.find(function (element) { return element.id === accountid; });
     if (!getAccount) {
         res.status(500).send("Account not Found");
@@ -38,10 +38,10 @@ app.get("/account/:id", function (req, res) {
         res.json(getAccount);
     }
 });
-app.get("/gettraans", function (req, res) {
+app.get("/transactions", function (req, res) {
     res.json(transactionT);
 });
-app.post("/createnewaccount", function (req, res) {
+app.post("/accounts/createnewaccount", function (req, res) {
     var _a = req.body, name = _a.name, accType = _a.accType, email = _a.email;
     var newAccount = {
         id: data.length + 1,
@@ -63,12 +63,11 @@ the current date and time, and the transaction details are added to the `transac
 account balance is then updated by adding the transaction amount, and the number of transactions is
 incremented. Finally, the updated account object is returned as a JSON response using the
 `res.json()` method. */
-app.post("/account/:id/deposite", function (req, res) {
-    var accountId = Number(req.params.id);
-    //const account = data.find(acc => acc.id === parseInt(accountId))
-    var getAccount = data.find(function (element) { return element.id === accountId; });
+app.post("/accounts/:id/deposite", function (req, res) {
+    var accountId = req.params.id;
+    var account = data.find(function (acc) { return acc.id === parseInt(accountId); });
     var _a = req.body, id = _a.id, amount = _a.amount;
-    if (!getAccount) {
+    if (!account) {
         return res.status(404).json({ error: 'Account not found' });
     }
     var transactiontime = new Date();
@@ -78,9 +77,9 @@ app.post("/account/:id/deposite", function (req, res) {
         amount: amount
     };
     transactionT.push(transaction);
-    getAccount.balance += amount;
-    getAccount.Nooftransaction++;
-    res.json(getAccount);
+    account.balance += amount;
+    account.Nooftransaction++;
+    res.json(account);
 });
 /* This code defines a POST endpoint for withdrawing money from a specific account. The `id` parameter
 in the URL is used to identify the account from which the money is to be withdrawn. The `req.body`
@@ -90,7 +89,7 @@ the transaction amount is valid, a new transaction object is created with the cu
 and the transaction details are added to the `transactionT` array. The account balance is then
 updated by subtracting the transaction amount, and the number of transactions is incremented.
 Finally, the updated account object is returned as a JSON response using the `res.json()` method. */
-app.post("/account/:id/withdraw", function (req, res) {
+app.post("/accounts/:id/withdraw", function (req, res) {
     var accountId = req.params.id;
     var account = data.find(function (acc) { return acc.id === parseInt(accountId); });
     if (!account) {
@@ -108,7 +107,7 @@ app.post("/account/:id/withdraw", function (req, res) {
     };
     transactionT.push(transaction);
     account.balance -= amount;
-    account.Nooftransaction++;
+    account.Nooftransaction = account.Nooftransaction + 1;
     res.json(account);
 });
 /* This code defines a GET endpoint for retrieving a filtered list of transactions based on the date
@@ -116,11 +115,12 @@ range specified in the URL parameters. The `start` and `end` parameters are pars
 used to filter the `transactionT` array based on the `transactiontime` property of each transaction
 object. The filtered transactions are then returned as a JSON response using the `res.json()`
 method. */
-app.get("/account/getfiltertransaction/:start/:end", function (req, res) {
+app.get("/accounts/getfiltertransaction/:start/:end", function (req, res) {
     var startDate = new Date(req.params.start);
     var endDate = new Date(req.params.end);
     var filteredData = transactionT.filter(function (account) {
         var accDate = new Date(account.transactiontime);
+        //   console.log(accDate);
         return accDate >= startDate && accDate <= endDate;
     });
     res.json(filteredData);
@@ -130,7 +130,7 @@ ID and date range specified in the URL parameters. The `id`, `start`, and `end` 
 parsed from the URL and used to filter the `transactionT` array based on the `id` and
 `transactiontime` properties of each transaction object. The filtered transactions are then returned
 as a JSON response using the `res.json()` method. */
-app.get("/account/getfiltertransaction/:id/:start/:end", function (req, res) {
+app.get("/accounts/getfiltertransaction/:id/:start/:end", function (req, res) {
     var id = Number(req.params.id);
     var startDate = new Date(req.params.start);
     var endDate = new Date(req.params.end);
@@ -149,6 +149,7 @@ app.get("/accounts/:start/:end", function (req, res) {
     var enddate = new Date(req.params.end);
     var filteredData = data.filter(function (account) {
         var accDate = new Date(account.Data_Acc_created);
+        console.log(accDate);
         return accDate >= startdate && accDate <= enddate;
     });
     res.json(filteredData);
@@ -158,7 +159,7 @@ app.get("/accounts/:start/:end", function (req, res) {
 is a valid index in the `data` array. If it is not a valid index, it returns a 400 status code with
 an error message. If it is a valid index, it removes the account from the `data` array using the
 `splice()` method and returns a 200 status code with a success message and the updated `data` array. */
-app["delete"]("/account/delete/:id", function (req, res) {
+app["delete"]("/accounts/delete/:id", function (req, res) {
     var userindex = parseInt(req.params.id);
     if (isNaN(userindex) || userindex < 0 || userindex >= data.length) {
         return res.status(400).send("Invalid account index ");
