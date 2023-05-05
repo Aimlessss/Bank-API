@@ -23,14 +23,11 @@ let transactionT = [{id: 1, transactiontime: new Date("2015-01-16"), amount : 30
 app.use(express.json())
 const dataLength = data.length;
 
-
-//   get/getaccsummary -> givs account summary
-app.get("/accounts", (req: express.Request, res: express.Response)=>{
+app.get("/accounts", (req, res)=>{
     console.log('/GET accounts');
     res.json(data);
 });
 
-//   get/account/index -> gives account summary specific index
 app.get("/accounts/:id",(req, res)=>{
     const accountid = Number(req.params.id)
     const getAccount = data.find((element)=>element.id === accountid)
@@ -41,11 +38,11 @@ app.get("/accounts/:id",(req, res)=>{
         res.json(getAccount);
     }
 });
-app.get("/transactions",(req: express.Request, res: express.Response)=>{
+app.get("/transactions",(req, res)=>{
     res.json(transactionT);
 
 });
-app.post("/accounts/createnewaccount", (req: express.Request, res: express.Response) => {
+app.post("/accounts/createnewaccount", (req, res) => {
 
     const {name, accType, email} = req.body;
 
@@ -63,15 +60,7 @@ app.post("/accounts/createnewaccount", (req: express.Request, res: express.Respo
     res.json(newAccount);
    
 });
-/* This code defines a POST endpoint for depositing money into a specific account. The `id` parameter
-in the URL is used to identify the account into which the money is to be deposited. The `req.body`
-object is used to extract the `id` and `amount` of the transaction. The code then checks if the
-account exists in the `data` array. If the account exists, a new transaction object is created with
-the current date and time, and the transaction details are added to the `transactionT` array. The
-account balance is then updated by adding the transaction amount, and the number of transactions is
-incremented. Finally, the updated account object is returned as a JSON response using the
-`res.json()` method. */
-app.post("/accounts/:id/deposite" ,(req: express.Request, res: express.Response)=>{
+app.post("/accounts/:id/deposite" ,(req, res)=>{
     const accountId = req.params.id;
     const account = data.find(acc => acc.id === parseInt(accountId))
     const { id, amount } = req.body;
@@ -93,17 +82,9 @@ app.post("/accounts/:id/deposite" ,(req: express.Request, res: express.Response)
     res.json(account)
    
 
-})
+});
 
-/* This code defines a POST endpoint for withdrawing money from a specific account. The `id` parameter
-in the URL is used to identify the account from which the money is to be withdrawn. The `req.body`
-object is used to extract the `id` and `amount` of the transaction. The code then checks if the
-account exists in the `data` array and if the transaction amount is valid. If the account exists and
-the transaction amount is valid, a new transaction object is created with the current date and time,
-and the transaction details are added to the `transactionT` array. The account balance is then
-updated by subtracting the transaction amount, and the number of transactions is incremented.
-Finally, the updated account object is returned as a JSON response using the `res.json()` method. */
-app.post("/accounts/:id/withdraw", (req: express.Request, res: express.Response) =>{
+app.post("/accounts/:id/withdraw", (req, res) =>{
     const accountId = req.params.id;
     const account = data.find(acc => acc.id === parseInt(accountId))
     if(!account){
@@ -127,13 +108,7 @@ app.post("/accounts/:id/withdraw", (req: express.Request, res: express.Response)
 });
 
 
-
-/* This code defines a GET endpoint for retrieving a filtered list of transactions based on the date
-range specified in the URL parameters. The `start` and `end` parameters are parsed from the URL and
-used to filter the `transactionT` array based on the `transactiontime` property of each transaction
-object. The filtered transactions are then returned as a JSON response using the `res.json()`
-method. */
-app.get("/accounts/getfiltertransaction/:start/:end", (req: express.Request, res: express.Response) => {
+app.get("/accounts/getfiltertransaction/:start/:end", (req, res) => {
     const startDate = new Date(req.params.start);
     const endDate = new Date(req.params.end);
   
@@ -147,12 +122,7 @@ app.get("/accounts/getfiltertransaction/:start/:end", (req: express.Request, res
       
   });
   
-/* This code defines a GET endpoint for retrieving a filtered list of transactions based on the account
-ID and date range specified in the URL parameters. The `id`, `start`, and `end` parameters are
-parsed from the URL and used to filter the `transactionT` array based on the `id` and
-`transactiontime` properties of each transaction object. The filtered transactions are then returned
-as a JSON response using the `res.json()` method. */
-app.get("/accounts/getfiltertransaction/:id/:start/:end",(req: express.Request, res: express.Response)=>{
+app.get("/accounts/getfiltertransaction/:id/:start/:end",(req, res)=>{
     const id = Number(req.params.id);
     const startDate = new Date(req.params.start);
     const endDate = new Date(req.params.end);
@@ -166,11 +136,7 @@ app.get("/accounts/getfiltertransaction/:id/:start/:end",(req: express.Request, 
     
 })
 
-/* This code defines a GET endpoint for retrieving a filtered list of accounts based on the date range
-specified in the URL parameters. The start and end dates are parsed from the URL parameters and used
-to filter the `data` array based on the `Data_Acc_created` property of each account object. The
-filtered data is then returned as a JSON response using the `res.json()` method. */
-app.get("/accounts/:start/:end",(req: express.Request, res: express.Response) =>{
+app.get("/accounts/:start/:end",(req, res) =>{
     
     const startdate = new Date(req.params.start);
     const enddate = new Date(req.params.end);
@@ -185,12 +151,7 @@ app.get("/accounts/:start/:end",(req: express.Request, res: express.Response) =>
 });
 
 
-/* This code is defining a DELETE endpoint for deleting an account from the `data` array based on the
-`id` parameter passed in the URL. It first parses the `id` parameter to an integer and checks if it
-is a valid index in the `data` array. If it is not a valid index, it returns a 400 status code with
-an error message. If it is a valid index, it removes the account from the `data` array using the
-`splice()` method and returns a 200 status code with a success message and the updated `data` array. */
-app.delete("/accounts/delete/:id", (req: express.Request, res: express.Response) =>{
+app.delete("/accounts/delete/:id", (req, res) =>{
 
     const userindex = parseInt(req.params.id);
     if(isNaN(userindex) || userindex < 0 || userindex >= data.length){
