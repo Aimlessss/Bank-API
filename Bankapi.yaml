@@ -7,7 +7,7 @@ info:
     email: katharva2002@gmail.com
     name: Atharva
 paths:
-  /getaccsummary:
+  /accounts:
     get:
       summary: Fetch account summary data
       description: Returns all data stored locally
@@ -35,7 +35,7 @@ paths:
                     type : integer
                   Nooftransaction : 
                     type : integer
-  /gettraans:
+  /transactions:
     get:
       summary: Fetch data of transaction
       description : shows all data with there transactions
@@ -55,7 +55,7 @@ paths:
                     description : transaction time of each index 
                   amount:
                     type: integer
-  /account/id :
+  /accounts/:id :
     get:
       summary : Fetch data with specific ID
       description : Output data with respected ID
@@ -83,7 +83,7 @@ paths:
                     type : integer
                   Nooftransaction : 
                     type : integer
-  /createnewaccount:
+  /accounts/createnewaccount:
     post:
       summary: Creates a new account
       description: crates a new account by taking inputs(parameters) from req.body
@@ -124,7 +124,7 @@ paths:
                 nooftransaction :
                   type : integer
                   
-  /account/getfiltertransaction/:start/end:
+  /accounts/getfiltertransaction/:start/end:
     get : 
       summary : Gets filtered transactions 
       description : Filtered transactions 
@@ -142,7 +142,7 @@ paths:
                     type: string
                   amount: 
                     type: integer
-  /account/delete/id : 
+  /accounts/delete/id : 
     delete:
       summary : deletes the specific account 
       description : deletes the specific account with parameter "id"
@@ -168,7 +168,7 @@ paths:
                     type : integer
                   Nooftransaction:
                     type: integer
-  /account/:id/withdraw:
+  /accounts/:id/withdraw:
     post:
       summary: Withdraws a certain amount from the account
       description: Withdraws a specified amount from the account with the provided ID.
@@ -212,7 +212,7 @@ paths:
                     type: integer
                   Nooftransaction:
                     type: integer
-  /account/:id/deposite:
+  /accounts/:id/deposite:
     post:
       summary: Deposits a certain amount into the account
       description: Deposits a specified amount into the account with the provided ID.
