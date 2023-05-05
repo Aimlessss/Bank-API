@@ -3,18 +3,18 @@ import request from 'supertest';
 
 import app from "./index";
 
-describe("GET /getaccsummary", () => {
+describe("GET /accounts", () => {
     it('resopose ', async () => {
-      const response = await request(app).get('/getaccsummary');
+      const response = await request(app).get('/accounts');
       expect(response.status).toBe(200);
       
     });
   });
 
 
-describe("GET /account/:id", () => {
+describe("GET /accounts/:id", () => {
   it('resopose ', async () => {
-    const response = await request(app).get('/account/1');
+    const response = await request(app).get('/accounts/1');
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('id');
     expect(response.body).toHaveProperty('name');
@@ -26,9 +26,9 @@ describe("GET /account/:id", () => {
 
 });
 
-describe("GET /account/getfiltertransaction/:start/:end", () => {
+describe("GET /accounts/getfiltertransaction/:start/:end", () => {
   it("responds with filtered transactions", async () => {
-    const response = await request(app).get("/account/getfiltertransaction/2019-01-16/2021-01-16");
+    const response = await request(app).get("/accounts/getfiltertransaction/2019-01-16/2021-01-16");
     expect(response.status).toBe(200);
     for (const transaction of response.body) {
       expect(transaction).toHaveProperty('id');
@@ -56,7 +56,7 @@ describe("GET /accounts/:start/:end",()=>{
 
 
 
-describe("POST /createnewaccount", () => {
+describe("POST /accounts/createnewaccount", () => {
   it('response with new account', async()=>{
     const newAccount = {
       name : "atharva",
@@ -64,7 +64,7 @@ describe("POST /createnewaccount", () => {
       email : "ath@gmail.com",
       password : "abc"
     }
-    const response = await request (app).post('/createnewaccount').send(newAccount);
+    const response = await request (app).post('/accounts/createnewaccount').send(newAccount);
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('name');
     expect(response.body).toHaveProperty('accType');
@@ -72,14 +72,14 @@ describe("POST /createnewaccount", () => {
   }) 
 });
 
-describe("POST /account/:id/deposite" ,()=>{
+describe("POST /accounts/:id/deposite" ,()=>{
   it('respose with deposited amount ', async()=>{
     
     const input = {
       id : 1,
       amount : 200
     }
-    const response = await  request(app).post('/account/1/deposite').send(input);
+    const response = await  request(app).post('/accounts/1/deposite').send(input);
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('id');
     expect(response.body).toHaveProperty('name');
@@ -91,14 +91,14 @@ describe("POST /account/:id/deposite" ,()=>{
   })
 })
 
-describe("POST /account/:id/withdraw" ,()=>{
+describe("POST /accounts/:id/withdraw" ,()=>{
   it('respose with withdrawed amount ', async()=>{
     
     const input = {
       id : 1,
       amount : 200
     }
-    const response = await  request(app).post('/account/1/withdraw').send(input);
+    const response = await  request(app).post('/accounts/1/withdraw').send(input);
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('id');
     expect(response.body).toHaveProperty('name');
@@ -109,9 +109,9 @@ describe("POST /account/:id/withdraw" ,()=>{
     expect(response.body).toHaveProperty('Nooftransaction');
   })
 })
-describe("GET /gettraans", () => {
+describe("GET /transactions", () => {
   it('resopose with  all transactions ', async () => {
-    const response  = await request(app).get("/gettraans");
+    const response  = await request(app).get("/transactions");
     expect(response.status).toBe(200);
     for(const transaction of response.body){
       expect(transaction).toHaveProperty('id');
@@ -121,9 +121,9 @@ describe("GET /gettraans", () => {
   });
 });
 
-describe("GET /account/getfiltertransaction/:id/:start/:end",()=>{
+describe("GET /accounts/getfiltertransaction/:id/:start/:end",()=>{
   it("should response with filter transaction to specific id", async()=>{
-    const response = await request(app).get('/account/getfiltertransaction/1/2015-01-16/2017-01-16');
+    const response = await request(app).get('/accounts/getfiltertransaction/1/2015-01-16/2017-01-16');
     expect(response.status).toBe(200);
     for(const transaction of response.body){
       expect(transaction).toHaveProperty('id');
@@ -133,9 +133,9 @@ describe("GET /account/getfiltertransaction/:id/:start/:end",()=>{
   })
 })
 
-describe("DELETE /account/delete/:id",()=>{
+describe("DELETE /accounts/delete/:id",()=>{
   it('response with deleted files', async()=>{
-    const resopose = await request(app).delete('/account/delete/1');
+    const resopose = await request(app).delete('/accounts/delete/1');
     expect(resopose.status).toBe(200);
   })
 })
