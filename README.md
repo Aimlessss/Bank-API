@@ -38,3 +38,21 @@ npm install express
 ```
 npm intall jest
 ```
+
+```
+npm install -g ts-node
+npm install --save-dev ts-node 
+npm install --save-dev ts-jest
+npm i --save-dev @types/supertest
+npm install supertest --savedev
+
+```
+These are all required modules that you need to install 
+
+```
+tsc --esModuleInterop  index.ts
+```
+Run the main project using above command 
+Setting esModuleInterop to true in your TypeScript configuration file is not enough. You need to pass the --esModuleInterop flag to the TypeScript compiler when you compile your code, otherwise it will not be applied.
+
+When you run tsc --esModuleInterop index.ts, you are telling the TypeScript compiler to apply the esModuleInterop flag when compiling the index.ts file. This will ensure that the compiled JavaScript code will use __importDefault instead of require when importing modules with a default export.
