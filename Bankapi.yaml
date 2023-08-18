@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Bank API by Atharva
   description: API with express, nodejs, TypeScript
-  version: 1.0.0
+  version: 1.0.1
   contact:
     email: katharva2002@gmail.com
     name: Atharva
@@ -83,47 +83,35 @@ paths:
                     type : integer
                   Nooftransaction : 
                     type : integer
-  /accounts/createnewaccount:
+  /createAccount:
     post:
-      summary: Creates a new account
-      description: crates a new account by taking inputs(parameters) from req.body
-      requestBody: 
-        description: account details
-        required : true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties :
-                name: 
-                  type: string
-                accType: 
-                  type: string
-                email:
-                  type: string
+      summary : Creates account
+      requestBody : 
+        content : 
+          application/json : 
+            schema : 
+              type : object 
+              properties : 
+                name : 
+                  type : string
+                  description : Name of account
+                accType : 
+                  type : string
+                  description : Account type 
+                email : 
+                  type : string
+                  description : Email 
+                  
       responses : 
         "200" :
-          description: OK
-          content :
-            application/json:
-              schema:
-              type: object
-              properties:
-                id:
-                  type: integer
-                name:
-                  type: string
-                accType: 
-                  type: string
-                email :
-                  type: string
-                data_acc_create: 
-                  type : string 
-                balance :
-                  type : integer 
-                nooftransaction :
-                  type : integer
-                  
+          description : OK
+          content:
+            application/json : 
+              schema : 
+                type : object
+                properties: 
+                  id : 
+                    type : integer
   /accounts/getfiltertransaction/:start/end:
     get : 
       summary : Gets filtered transactions 
@@ -168,35 +156,29 @@ paths:
                     type : integer
                   Nooftransaction:
                     type: integer
-  /accounts/:id/withdraw:
-    post:
-      summary: Withdraws a certain amount from the account
-      description: Withdraws a specified amount from the account with the provided ID.
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-          description: The ID of the account to withdraw from
-        - in: body
-          name: Withdrawal Details
-          description: The details of the withdrawal transaction
-          schema:
-            type: object
-            properties:
-              id:
-                type: integer
-              amount:
-                type: integer
-          required: true
-      responses:
-        "200":
-          description: OK
+  /account/:id/deposite : 
+    post : 
+      summary : Deposite specific ammount in data
+      description : Deposite amount to specific ID
+      requestBody : 
+        content : 
+          application/json : 
+            schema : 
+              type : object 
+              properties : 
+                id : 
+                  type : integer
+                  description : Specific ID
+                Amount : 
+                  type : integer
+                  description : amount
+      responses : 
+        "200" :
+          description : OK
           content:
-            application/json:
-              schema:
-                type: object
+            application/json : 
+              schema : 
+                type : object
                 properties:
                   id:
                     type: integer
@@ -212,35 +194,29 @@ paths:
                     type: integer
                   Nooftransaction:
                     type: integer
-  /accounts/:id/deposite:
-    post:
-      summary: Deposits a certain amount into the account
-      description: Deposits a specified amount into the account with the provided ID.
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-          description: The ID of the account to deposit into
-        - in: body
-          name: Deposit Details
-          description: The details of the deposit transaction
-          schema:
-            type: object
-            properties:
-              id:
-                type: integer
-              amount:
-                type: integer
-          required: true
-      responses:
-        "200":
-          description: OK
+  /account/:id/withdraw : 
+    post : 
+      summary : withdraw specific ammount in data
+      description : withdraw amount to specific ID
+      requestBody : 
+        content : 
+          application/json : 
+            schema : 
+              type : object 
+              properties : 
+                id : 
+                  type : integer
+                  description : Specific ID
+                Amount : 
+                  type : integer
+                  description : amount
+      responses : 
+        "200" :
+          description : OK
           content:
-            application/json:
-              schema:
-                type: object
+            application/json : 
+              schema : 
+                type : object
                 properties:
                   id:
                     type: integer
@@ -256,4 +232,3 @@ paths:
                     type: integer
                   Nooftransaction:
                     type: integer
-
